@@ -15,7 +15,6 @@ def posts_list(request):
 
 
 class PostDetail(ObjectDetailMixin, View):
-
     model = Post
     template = 'blog/post_list.html'
 
