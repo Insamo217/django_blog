@@ -1,0 +1,21 @@
+{% include 'blog/includes/header_template.html' %}
+
+
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <form action="{{ post.get_delete_url }}" method="post">
+            {% csrf_token %}
+
+            <h3>Действительно удалить запись?</h3>
+                <a href="{{ post.get_delete_url }}">Отмена</a>
+
+            <button type="submit" name="button" class="btn btn-danger">
+            Удалить
+            </button>
+        </form>
+    </div>
+  </div>
+</div>

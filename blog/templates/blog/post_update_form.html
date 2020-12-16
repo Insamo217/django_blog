@@ -1,0 +1,24 @@
+{% include 'blog/includes/header_template.html' %}
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <h3><a class="navbar-brand" href="{% url 'post_list_url' %}">
+            Обратно на главную страницу</a></h3>
+
+        <form class="" action="{{ post.get_update_url }}" method="post">
+
+        {% include 'blog/includes/post_form_template.html' %}
+
+        {% block button %}
+        <button type="submit" name="button">
+        Изменить пост
+        </button>
+        {% endblock %}
+
+        </form>
+
+    </div>
+  </div>
+</div>
