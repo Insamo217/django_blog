@@ -12,12 +12,12 @@
         {% include 'blog/includes/post_form_template.html' %}
 
         {% block button %}
-        <a class="btn btn-outline-success">
+        <button type="submit" name="button">
         Создать пост
-        </a>
+        </button>
         {% endblock %}
         <br><br>
-        <a class="btn btn-outline-success" href="{% url 'post_list_url' %}">
+        <a class="btn btn-outline-secondary" href="{% url 'post_list_url' %}">
             Обратно на главную страницу</a>
 
         </form>

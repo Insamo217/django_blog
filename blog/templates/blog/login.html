@@ -12,7 +12,14 @@
         </form> <br>
 
         <h3><a class="btn btn-outline-success" href="{% url 'post_list_url' %}">
-            Обратно на главную страницу</a></h3>
+            Обратно на главную страницу</a></h3><br>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="btn btn-outline-danger" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
 
     </div>
   </div>

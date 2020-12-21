@@ -1,7 +1,5 @@
 {% include 'blog/includes/header_template.html' %}
 
-
-
 <!-- Main Content -->
 <div class="container">
   <div class="row">
@@ -9,8 +7,9 @@
         <form action="{{ post.get_delete_url }}" method="post">
             {% csrf_token %}
 
-            <h3>Действительно удалить запись?</h3>
-                <a href="{{ post.get_delete_url }}">Отмена</a>
+            <h3>Действительно удалить
+                <a style="color:red">{{ post.title }}</a>?</h3>
+                <a href="{{ post.get_absolute_url }}">Отмена</a>
 
             <button type="submit" name="button" class="btn btn-danger">
             Удалить
