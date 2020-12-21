@@ -45,7 +45,7 @@ class Comment(models.Model):
     user = models.ForeignKey\
         (User, related_name='users', on_delete=models.CASCADE, blank=True, null=True)
     slug = models.SlugField(max_length=150, unique=True)
-    text = models.TextField()
+    text = models.TextField(max_length=150)
     created = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(verbose_name='Видимость комментарии', default=False)
 
