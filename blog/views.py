@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import View
 from .models import *
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import *
 from .utils import *
 
@@ -12,6 +14,30 @@ def posts_list(request):
     title = 'Записки склерозника'
     posts = Post.objects.all()
     return render(request, 'blog/index.html', context={'posts': posts, 'title': title})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('post_list_url'))
+                else:
+                    return HttpResponse('User not active')
+            else:
+                return HttpResponse('Пользователь не найден')
+    else:
+        form = UserLoginForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'blog/login.html', context)
 
 
 class PostDetail(ObjectDetailMixin, View):

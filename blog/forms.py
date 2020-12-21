@@ -20,3 +20,8 @@ class PostForm(forms.ModelForm):
             if new_slug == 'create':
                 raise ValidationError('Slug не может быть создан')
             return new_slug
+
+
+class UserLoginForm(forms.Form):
+    username = forms.CharField(label="")
+    password = forms.CharField(label="", widget=forms.PasswordInput)
