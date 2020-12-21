@@ -4,19 +4,22 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-        <h3><a class="btn btn-outline-success" href="{% url 'post_list_url' %}">
-            Обратно на главную страницу</a></h3>
+
+        <h3>Редактировать пост</h3><br>
+
 
         <form class="" action="{{ post.get_update_url }}" method="post">
 
         {% include 'blog/includes/post_form_template.html' %}
 
         {% block button %}
-        <button type="submit" name="button">
+        <a class="btn btn-outline-success">
         Изменить пост
-        </button>
+        </a>
         {% endblock %}
-
+        <br><br>
+        <h3><a class="btn btn-outline-success" href="{% url 'post_list_url' %}">
+            Обратно на главную страницу</a></h3>
         </form>
 
     </div>
