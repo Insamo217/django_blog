@@ -22,7 +22,8 @@ class ObjectCreateMixin:
     def get(self, request):
         form = self.model_form()
         title = 'Создание поста'
-        return render(request, self.template, context={'form': form, 'title': title})
+        return render(request, self.template,
+                      context={'form': form, 'title': title})
 
     def post(self, request):
         bound_form = self.model_form(request.POST)
@@ -30,7 +31,8 @@ class ObjectCreateMixin:
         if bound_form.is_valid():
             new_obj = bound_form.save()
             return redirect(new_obj)
-        return render(request, self.template, context={'form': bound_form, 'title': title})
+        return render(request, self.template,
+                      context={'form': bound_form, 'title': title})
 
 
 class ObjectUpdateMixin():
@@ -44,7 +46,8 @@ class ObjectUpdateMixin():
         bound_form = self.model_form(instance=obj)
         title = 'Редактирование поста'
         return render(request, self.template,
-                      context={'form': bound_form, self.model.__name__.lower(): obj,
+                      context={'form': bound_form,
+                               self.model.__name__.lower(): obj,
                                'title': title})
 
     def post(self, request, slug):
@@ -56,7 +59,8 @@ class ObjectUpdateMixin():
             new_obj = bound_form.save()
             return redirect(new_obj)
         return render(request, self.template,
-                      context={'form': bound_form, self.model.__name__.lower(): obj,
+                      context={'form': bound_form,
+                               self.model.__name__.lower(): obj,
                                'title': title})
 
 

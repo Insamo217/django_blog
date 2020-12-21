@@ -7,7 +7,7 @@ from time import time
 
 
 def gen_slug(s):
-    new_slug = slugify(s, allow_unicode=True)
+    new_slug = slugify(s, allow_unicode=False)
     return new_slug + '-' + str(int(time()))
 
 
