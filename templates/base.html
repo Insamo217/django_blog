@@ -35,26 +35,24 @@
         Меню
         <i class="fas fa-bars"></i>
       </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
+      {% if request.user.is_authenticated and request.user.is_staff %}
 
-          {% block navigation %}
-          {% endblock %}
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
 
+            {% block navigation %}
+            {% endblock %}
 
+              <li class="nav-item">
+                <a class="nav-link" href="/create">Создать пост</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin">Панель админа</a>
+              </li>
+          </ul>
+        </div>
+      {% endif %}
 
-            <li class="nav-item">
-              <a class="nav-link" href="/create">Создать пост</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin">Панель админа</a>
-            </li>
-
-
-
-        </ul>
-
-      </div>
     </div>
   </nav>
 
