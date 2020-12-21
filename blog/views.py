@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import View
 from .models import *
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import *
@@ -13,7 +14,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def posts_list(request):
     title = 'Записки склерозника'
     posts = Post.objects.all()
-    return render(request, 'blog/index.html', context={'posts': posts, 'title': title})
+    return render(request, 'blog/index.html',
+                  context={'posts': posts, 'title': title})
 
 
 def user_login(request):
@@ -30,13 +32,15 @@ def user_login(request):
                 else:
                     return HttpResponse('User not active')
             else:
-                return HttpResponse('Пользователь не найден')
+                messages.error(request, 'Данные введены неверно!')
+
     else:
         form = UserLoginForm()
 
     context = {
         'form': form
     }
+
     return render(request, 'blog/login.html', context)
 
 
