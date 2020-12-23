@@ -11,6 +11,8 @@
             <input type="submit" value="Войти" class="btn btn-outline-success">
         </form> <br>
 
+        <h3><a class="btn btn-outline-success" href="{% url 'register' %}">
+            Регистрация</a></h3><br>
         <h3><a class="btn btn-outline-success" href="{% url 'post_list_url' %}">
             Обратно на главную страницу</a></h3><br>
             {% if messages %}

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views.generic import View
 from .models import *
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import *
 from .utils import *
@@ -14,11 +14,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def posts_list(request):
     title = 'Записки склерозника'
     posts = Post.objects.all()
-    return render(request, 'blog/index.html',
+    return render(request, 'blog/post_list.html',
                   context={'posts': posts, 'title': title})
 
 
 def user_login(request):
+    title = 'Авторизация'
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -38,15 +39,37 @@ def user_login(request):
         form = UserLoginForm()
 
     context = {
-        'form': form
+        'form': form, 'title': title
     }
 
     return render(request, 'blog/login.html', context)
 
 
+def user_logout(request):
+    logout(request)
+    return redirect('post_list_url')
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST or None)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            return redirect('user_login')
+
+    else:
+        form = UserRegistrationForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'blog/register.html', context)
+
+
 class PostDetail(ObjectDetailMixin, View):
     model = Post
-    template = 'blog/post_list.html'
+    template = 'blog/post_detail.html'
 
 
 class PostCreate(LoginRequiredMixin, ObjectCreateMixin, View):
