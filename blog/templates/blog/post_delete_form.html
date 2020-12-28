@@ -7,8 +7,8 @@
         <form action="{{ post.get_delete_url }}" method="post">
             {% csrf_token %}
 
-            <h3>Действительно удалить
-                <a style="color:red">{{ post.title }}</a>?</h3>
+            <h3>Действительно удалить "
+                <a style="color:red">{{ post.title }}</a>"?</h3>
                 <a href="{{ post.get_absolute_url }}">Отмена</a>
 
             <button type="submit" name="button" class="btn btn-danger">

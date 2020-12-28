@@ -18,6 +18,27 @@ def posts_list(request):
                   context={'posts': posts, 'title': title})
 
 
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug__iexact=slug)
+    comments = Comment.objects.filter(post=post).order_by('-id')
+    context = {
+        'post': post, 'comments': comments, 'title': post
+    }
+    return render(request, 'blog/post_detail.html', context)
+
+
+def like_post(request):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    if post.likes.filter(id=request.user.id).exist():
+        post.likes.remove(request.user)
+        is_liked = False
+    else:
+        post.likes.add(request.user)
+        is_liked = True
+
+    return HttpResponseRedirect(post.get_absolute_url())
+
+
 def user_login(request):
     title = 'Авторизация'
     if request.method == 'POST':
@@ -51,25 +72,45 @@ def user_logout(request):
 
 
 def register(request):
+    title = 'Регистрация'
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST or None)
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
+            Profile.objects.create(user=new_user)
             return redirect('user_login')
 
     else:
         form = UserRegistrationForm()
     context = {
-        'form': form
+        'form': form, 'title': title
     }
     return render(request, 'blog/register.html', context)
 
 
-class PostDetail(ObjectDetailMixin, View):
-    model = Post
-    template = 'blog/post_detail.html'
+def edit_profile(request):
+    title = 'Редактирование профиля'
+    if request.method =='POST':
+        user_form = UserEditForm(data=request.POST or None, instance=request.user)
+        profile_form = ProfileEditForm(data=request.POST or None,
+                                       instance=request.user.profile, files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'title': title
+    }
+    return render(request, 'blog/edit_profile.html', context)
+
+
 
 
 class PostCreate(LoginRequiredMixin, ObjectCreateMixin, View):

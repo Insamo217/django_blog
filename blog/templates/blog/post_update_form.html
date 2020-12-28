@@ -17,8 +17,8 @@
         </button>
         {% endblock %}
         <br><br>
-        <h3><a class="btn btn-outline-secondary" href="{% url 'post_list_url' %}">
-            Обратно на главную страницу</a></h3>
+        <h3><a class="btn btn-outline-secondary" href="{{ post.get_absolute_url }}">
+            Назад</a></h3>
         </form>
 
     </div>

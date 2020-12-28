@@ -7,11 +7,10 @@ from django.contrib.auth.models import User
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'slug', 'text']
+        fields = ['title', 'text']
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'slug': forms.TextInput(attrs={'class': 'form-control'}),
             'text': forms.Textarea(attrs={'class': 'form-control'})
         }
 
@@ -39,8 +38,8 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = {
-            'username',
-            'email',
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
     def clean_confirm_password(self):
@@ -50,3 +49,23 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Пароль не совпадает')
         return confirm_password
 
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('photo',)

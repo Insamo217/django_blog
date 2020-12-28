@@ -1,0 +1,29 @@
+{% include 'blog/includes/header_template.html' %}
+
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+
+        <h3>Редактировать профиль</h3>
+            <form action="." method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in user_form %}
+                  <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                  </p>
+                {% endfor %}
+                {{ profile_form.as_p }}
+                <input type="submit" value="Сохранить изменения"
+                       class="btn btn-outline-secondary">
+            </form>
+        <br>
+        <h3><a class="btn btn-outline-secondary" href="{% url 'post_list_url' %}">
+            Обратно на главную страницу</a></h3>
+        </form>
+
+    </div>
+  </div>
+</div>

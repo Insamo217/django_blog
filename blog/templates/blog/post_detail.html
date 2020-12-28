@@ -1,12 +1,13 @@
 {% extends 'blog/base_blog.html' %}
 
+{% block title %}
+    <title>{{ title }}</title>
+{% endblock %}
 
 {% block navigation %}
 
-
       <a class="nav-link" href="{{ post.get_update_url }}">Редактировать</a>
       <a class="nav-link" href="{{ post.get_delete_url }}">Удалить</a>
-
 
 {% endblock %}
 
@@ -33,11 +34,34 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            {{ post.text|linebreaks }}
+            {{ post.text|linebreaks }}<hr>
+             Отметок "Нравится"
+            <form action="{% url 'like_post' %}" method="post">
+                {% csrf_token %}
+                {% if is_liked %}
+                    <button type="submit" name="post_id" value="{{ post.id }}"
+                        class="btn btn-danger">Dislike</button>
+                {% else %}
+                    <button type="submit" name="post_id" value="{{ post.id }}"
+                        class="btn btn-primary">like</button>
+                {% endif %}
+            </form>
+            <br>
+            {{ comments.count }} Комментарий
+            {% for comment in comments %}
+            <blockquote class="blockquote">
+              <p class="mb-3">{{ comment.text }}</p>
+              <footer class="blockquote-footer">Опубликован
+              <cite title="Source Title">{{ comment.author }} {{ comment.created }} </cite>
+              </footer>
+            </blockquote>
+
+            {% endfor %}
 
         </div>
       </div>
     </div>
   </article>
+
 
 {% endblock %}

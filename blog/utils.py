@@ -1,17 +1,21 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.generic import View
+from .models import *
 
 
 class ObjectDetailMixin:
     title = None
     model = None
     template = None
+    comments = None
 
     def get(self, request, slug):
         obj = get_object_or_404(self.model, slug__iexact=slug)
+        comments = Comment.objects.filter(post=obj).order_by('-id')
         title = self.model
         return render(request, self.template,
-                      context={self.model.__name__.lower(): obj, 'title': title})
+                      context={self.model.__name__.lower(): obj, 'title': title,
+                               'comments': comments})
 
 
 class ObjectCreateMixin:
