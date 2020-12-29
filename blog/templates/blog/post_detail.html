@@ -13,6 +13,7 @@
 
 {% block content %}
   <!-- Page Header -->
+
   <header class="masthead" style="background-image: url('/static/img/about-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
@@ -33,8 +34,9 @@
   <article>
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-            {{ post.text|linebreaks }}<hr>
+        <div class="col-lg-8 col-md-10 mx-auto text-justify">
+            <p>{{ post.text|linebreaks }}</p>
+            <hr>
             <img src="/media/heart.jpg" alt=""
                          class="navbar-img">
               {{ total_likes }} <br><br>
@@ -74,7 +76,6 @@
               <cite title="Source Title">{{ comment.author }} {{ comment.created }} </cite>
               </footer>
             </blockquote>
-
             {% endfor %}
 
         </div>
