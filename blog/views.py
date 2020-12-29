@@ -24,9 +24,20 @@ def post_detail(request, slug):
     if post.likes.filter(id=request.user.id).exists():
         is_liked = True
     comments = Comment.objects.filter(post=post).order_by('-id')
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST or None)
+        if comment_form.is_valid():
+            text = request.POST.get('text')
+            comment = Comment.objects.create\
+                (post=post, author=request.user, text=text)
+            comment.save()
+            return HttpResponseRedirect(post.get_absolute_url())
+    else:
+        comment_form = CommentForm()
     context = {
         'post': post, 'comments': comments, 'title': post,
-        'is_liked': is_liked, 'total_likes': post.total_likes()
+        'is_liked': is_liked, 'total_likes': post.total_likes(),
+        'comment_form': comment_form
     }
     return render(request, 'blog/post_detail.html', context)
 

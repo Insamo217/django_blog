@@ -47,7 +47,9 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments',
                              on_delete=models.CASCADE, blank=True)
-    author = models.CharField(max_length=150, default='Аноним')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    reply = models.ForeignKey('Comment', null=True, on_delete=models.CASCADE,
+                              related_name='replies')
     text = models.TextField(max_length=150)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -56,7 +58,8 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
-        return 'Комментарий к "{}"'.format(self.post.title)
+        return '{} к "{}"'.format(self.author, self.post.title)
+
 
 
 class Profile(models.Model):

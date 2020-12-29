@@ -35,22 +35,41 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             {{ post.text|linebreaks }}<hr>
-             Отметок "Нравится": {{ total_likes }}
+            <img src="/media/heart.jpg" alt=""
+                         class="navbar-img">
+              {{ total_likes }} <br><br>
+
+            {% if request.user.is_authenticated %}
             <form action="{% url 'like_post' %}" method="post">
                 {% csrf_token %}
                 {% if is_liked %}
                     <button type="submit" name="post_id" value="{{ post.id }}"
-                        class="btn btn-danger">Снять отметку</button>
+                        class="btn btn-danger">Снять отметку</button><br>
                 {% else %}
                     <button type="submit" name="post_id" value="{{ post.id }}"
-                        class="btn btn-primary">Нравится</button>
+                        class="btn btn-success">Нравится</button>
                 {% endif %}
             </form>
-            <br>
-            {{ comments.count }} Комментарий
+            {% endif %}
+
+            <form method="post">
+                {% if request.user.is_authenticated %}
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <input type="submit" value="Отправить"
+                           class="btn btn-outline-success">
+                {% else %}
+                <p>
+                    <a href="{% url 'user_login' %}" style="color:red">Авторизуйтесь</a>
+                    чтобы добавлять комментарии и ставить лайки
+                </p>
+                {% endif %}
+            </form>
+
+            <br> {{ comments.count }} Комментариев
             {% for comment in comments %}
             <blockquote class="blockquote">
-              <p class="mb-3">{{ comment.text }}</p>
+              <p class="mb-0">{{ comment.text }}</p>
               <footer class="blockquote-footer">Опубликован
               <cite title="Source Title">{{ comment.author }} {{ comment.created }} </cite>
               </footer>

@@ -30,7 +30,7 @@ class UserLoginForm(forms.Form):
 
 
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput
+    password = forms.CharField (widget=forms.PasswordInput
     (attrs={'placeholder': 'Введите пароль здесь...'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput
     (attrs={'placeholder': 'Подтвердите пароль...'}))
@@ -38,8 +38,8 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput,
+            'email': forms.EmailInput
         }
 
     def clean_confirm_password(self):
@@ -51,9 +51,13 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    text = forms.CharField(label="", widget=forms.Textarea
+    (attrs={'class': 'form-control', 'placeholder': 'Напиши комментарий здесь...',
+            'rows': '4', 'cols': '50'}))
+
     class Meta:
         model = Comment
-        fields = ['text']
+        fields = ['text',]
 
 
 class UserEditForm(forms.ModelForm):
@@ -69,3 +73,4 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('photo',)
+
