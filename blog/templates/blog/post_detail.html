@@ -35,15 +35,15 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             {{ post.text|linebreaks }}<hr>
-             Отметок "Нравится"
+             Отметок "Нравится": {{ total_likes }}
             <form action="{% url 'like_post' %}" method="post">
                 {% csrf_token %}
                 {% if is_liked %}
                     <button type="submit" name="post_id" value="{{ post.id }}"
-                        class="btn btn-danger">Dislike</button>
+                        class="btn btn-danger">Снять отметку</button>
                 {% else %}
                     <button type="submit" name="post_id" value="{{ post.id }}"
-                        class="btn btn-primary">like</button>
+                        class="btn btn-primary">Нравится</button>
                 {% endif %}
             </form>
             <br>

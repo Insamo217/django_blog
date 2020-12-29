@@ -15,7 +15,7 @@ class Post(models.Model):
     title = models.CharField('Заголовок поста', max_length=150, db_index=True)
     slug = models.SlugField(max_length=150, blank=True, unique=True)
     text = models.TextField('Текст поста', blank=True, db_index=True)
-    #likes = models.IntegerField(blank=True, default=0)
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
     date_pub = models.DateTimeField('Дата публикации', default=datetime.now())
 
     def get_absolute_url(self):
@@ -33,7 +33,7 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     def total_likes(self):
-        return self.likes.count
+        return self.likes.count()
 
     def __str__(self):
         return self.title

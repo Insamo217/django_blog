@@ -20,16 +20,21 @@ def posts_list(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug__iexact=slug)
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        is_liked = True
     comments = Comment.objects.filter(post=post).order_by('-id')
     context = {
-        'post': post, 'comments': comments, 'title': post
+        'post': post, 'comments': comments, 'title': post,
+        'is_liked': is_liked, 'total_likes': post.total_likes()
     }
     return render(request, 'blog/post_detail.html', context)
 
 
 def like_post(request):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    if post.likes.filter(id=request.user.id).exist():
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
         is_liked = False
     else:
