@@ -14,7 +14,8 @@ urlpatterns = [
     path('login/', user_login, name='user_login'),
     path('logout/', user_logout, name='user_logout'),
     path('register/', register, name='register'),
-    path('like/', like_post, name='like_post')
+    path('like/', like_post, name='like_post'),
+    path('about_ms/', about_ms, name='about_ms')
 
 ]
 if settings.DEBUG:

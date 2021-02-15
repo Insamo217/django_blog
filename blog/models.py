@@ -61,7 +61,6 @@ class Comment(models.Model):
         return '{} к "{}"'.format(self.author, self.post.title)
 
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created = models.DateField(default=datetime.now())

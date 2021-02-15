@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import View
-from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import *
 from .utils import *
@@ -13,9 +13,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 def posts_list(request):
     title = 'Записки склерозника'
-    posts = Post.objects.all()
+    post_list = Post.objects.all().order_by('-id')
     return render(request, 'blog/post_list.html',
-                  context={'posts': posts, 'title': title})
+                  context={'posts': post_list, 'title': title})
 
 
 def post_detail(request, slug):
@@ -127,8 +127,6 @@ def edit_profile(request):
     return render(request, 'blog/edit_profile.html', context)
 
 
-
-
 class PostCreate(LoginRequiredMixin, ObjectCreateMixin, View):
     model_form = PostForm
     template = 'blog/post_create_form.html'
@@ -147,3 +145,7 @@ class PostDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     template = 'blog/post_delete_form.html'
     redirect_url = 'post_list_url'
     raise_exception = True
+
+
+def about_ms(request):
+    return render(request, 'blog/post_ms.html')
